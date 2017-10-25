@@ -1,0 +1,33 @@
+---
+- name: patching app servers
+  hosts: all
+  #remote_user: jenkins
+  user: jenkins
+  become: true
+  #become_user: jenkins
+  become_method: sudo
+
+  tasks:
+    - name: Make sure red hat servers are subscribed
+      redhat_subscription:
+       state: present
+       username: 'rhn_username'
+       password: 'rhn_password'
+      when: (ansible_distribution == "RedHat" and ansible_distribution_major_version >= "5")
+ 
+    - name: redhat-centos update main and security packages  only
+      yum: disablerepo=* enablerepo=base,updates,[Redhat_repo_ip_list] name=* state=latest
+
+    - name: reboot the servers
+      shell: sleep 2 && shutdown -r now
+      async: 1
+      poll: 0
+
+    - name: waiting for servers to come back after reboot
+      become: false
+      local_action: wait_for host={{ inventory_hostname }}
+       state=started
+       port=22
+       delay=30
+       timeout=400
+       connect_timeout=15
