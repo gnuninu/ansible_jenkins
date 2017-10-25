@@ -1,0 +1,15 @@
+[JENKINS]
+127.0.0.1
+
+[APP_PROD]
+
+[APP_UAT]
+
+[APP_DEV]
+
+
+[DB_PROD]
+
+[DB_UAT]
+
+[DB_DEV]
