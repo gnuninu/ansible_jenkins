@@ -8,4 +8,4 @@
   become_method: sudo
  
     - name: redhat-centos update main and security packages  only
-      yum: disablerepo=* enablerepo=base,updates,[Redhat_repo_ip_list] name=* state=latest
+      yum: disablerepo=* enablerepo=base,updates,[Redhat_repo_id_list] name=* state=latest
