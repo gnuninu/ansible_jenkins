@@ -16,7 +16,7 @@
       when: (ansible_distribution == "RedHat" and ansible_distribution_major_version >= "5")
  
     - name: redhat-centos update main and security packages  only
-      yum: disablerepo=* enablerepo=base,updates,[Redhat_repo_ip_list] name=* state=latest
+      yum: disablerepo=* enablerepo=base,updates,[Redhat_repo_id_list] name=* state=latest
 
     - name: reboot the servers
       shell: sleep 2 && shutdown -r now
