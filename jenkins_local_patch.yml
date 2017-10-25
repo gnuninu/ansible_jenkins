@@ -1,0 +1,11 @@
+---
+- name: patching app servers
+  hosts: all
+  #remote_user: jenkins
+  user: jenkins
+  become: true
+  #become_user: jenkins
+  become_method: sudo
+ 
+    - name: redhat-centos update main and security packages  only
+      yum: disablerepo=* enablerepo=base,updates,[Redhat_repo_ip_list] name=* state=latest
