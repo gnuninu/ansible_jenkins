@@ -1,0 +1,46 @@
+---
+- name: create sudo users and copy key to app servers
+  hosts: all
+  user: (username here)
+  become: true
+  become_method: sudo
+
+  vars:
+    user_name: jenkins
+    user_pass: (shadowed file password here)
+
+  tasks:
+  - name: Add jenkins user
+    user: >
+      name={{ user_name }}
+      password={{ user_pass }}
+      shell=/bin/bash
+      append=yes
+      state=present
+  - name: Ensure /etc/sudoers.d directory is present
+    file: path=/etc/sudoers.d state=directory
+
+  - name: make sure libselinux-python is installed
+    yum: name=libselinux-python state=present
+
+  - name: Ensure /etc/sudoers.d is scanned by sudo
+    action: lineinfile dest=/etc/sudoers regexp="#includedir\s+/etc/sudoers.d" line="#includedir /etc/sudoers.d"
+
+  - name: Add jenkins user to the sudoers
+    action: 'lineinfile dest=/etc/sudoers.d/jenkins state=present create=yes regexp="jenkins .*" line="jenkins ALL=(ALL) ALL"'
+    tags: jenkins
+
+  - name: Ensure /etc/sudoers.d/jenkins file has correct permissions
+    action: file path=/etc/sudoers.d/jenkins mode=0440 state=file owner=root group=root
+    tags: jenkins
+
+  - name: Creates directory
+    file: path="/home/{{ user_name }}/.ssh/" state=directory
+
+  - name: crate authotized key file
+    file: path='/home/{{ user_name }}/.ssh/authorized_keys' state=touch
+
+  - name: Add my workstation user's public key to the new user
+    authorized_key: user="{{ user_name }}"
+     state="present"
+key="{{ lookup('file', 'certificates/id_rsa.pub') }}"
