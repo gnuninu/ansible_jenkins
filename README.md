@@ -19,3 +19,5 @@ TASK 2 : Apply all the security and bug-fix patches only omitting 3rd party repo
 TASK 3 : Reboot the servers
 
 TASK 4 : Wait for the servers to come back up after the reboot (SSH connection) within 400 seconds and exit
+
+NOTE Ansible will run the playbook as the Jenkins user, which is the user that Jenkins is running as.
