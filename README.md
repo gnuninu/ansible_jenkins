@@ -3,7 +3,7 @@ Collection of Playbooks for server patching and configuration management across 
 
 userkeys.yml
 
-This playbook creates a jenkins user on the remote servers with full sudo access by copying over related public key in order to allow operational jobs from a centrilized jenkins server configured with the Ansible plugin:
+This playbook creates a jenkins user on the remote servers with full sudo access by copying over related public key in order to allow operational jobs from a centralized jenkins server configured with the Ansible plugin:
 
 Jenkins ansible plugins info:
 https://wiki.jenkins.io/display/JENKINS/Ansible+Plugin
@@ -18,4 +18,4 @@ TASK 2 : Apply all the security and bug-fix patches only omitting 3rd party repo
 
 TASK 3 : Reboot the servers
 
-TASK 4 : Wait for the servers to come back up after the reboot (SSH connection) within 400 seconds
+TASK 4 : Wait for the servers to come back up after the reboot (SSH connection) within 400 seconds and exit
