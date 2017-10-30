@@ -43,4 +43,4 @@
   - name: Add my workstation user's public key to the new user
     authorized_key: user="{{ user_name }}"
      state="present"
-key="{{ lookup('file', 'certificates/id_rsa.pub') }}"
+     key="{{ lookup('file', 'certificates/id_rsa.pub') }}"
